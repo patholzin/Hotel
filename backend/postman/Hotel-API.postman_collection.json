@@ -1,0 +1,332 @@
+{
+  "info": {
+    "_postman_id": "5d4f4a7a-0f35-4ef7-9db6-8d7d9a6d9f51",
+    "name": "Hotel API",
+    "description": "Colección del backend del hotel. Requiere un bearer token válido en {{token}} y cambio de contraseña inicial antes de entrar a los módulos.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "{{base_url}}"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Utilidad",
+      "item": [
+        {
+          "name": "Inicio",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/",
+              "host": ["{{base_url}}"],
+              "path": [""]
+            }
+          }
+        },
+        {
+          "name": "Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/dashboard",
+              "host": ["{{base_url}}"],
+              "path": ["dashboard"]
+            }
+          }
+        },
+        {
+          "name": "Cambiar contraseña",
+          "item": [
+            {
+              "name": "Ver formulario",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/password/change",
+                  "host": ["{{base_url}}"],
+                  "path": ["password", "change"]
+                }
+              }
+            },
+            {
+              "name": "Actualizar contraseña",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"current_password\": \"admin123\",\n  \"password\": \"NuevaClave123\",\n  \"password_confirmation\": \"NuevaClave123\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/password/change",
+                  "host": ["{{base_url}}"],
+                  "path": ["password", "change"]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Administrador",
+      "item": [
+        {
+          "name": "Usuarios",
+          "item": [
+            {
+              "name": "Listar usuarios",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Accept", "value": "application/json" }],
+                "url": { "raw": "{{base_url}}/admin/usuarios", "host": ["{{base_url}}"], "path": ["admin", "usuarios"] }
+              }
+            },
+            {
+              "name": "Crear usuario",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Accept", "value": "application/json" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Usuario Nuevo\",\n  \"email\": \"nuevo@correo.com\",\n  \"password\": \"Password123\",\n  \"password_confirmation\": \"Password123\",\n  \"role\": \"Cliente\"\n}"
+                },
+                "url": { "raw": "{{base_url}}/admin/usuarios", "host": ["{{base_url}}"], "path": ["admin", "usuarios"] }
+              }
+            },
+            {
+              "name": "Actualizar usuario",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  { "key": "Accept", "value": "application/json" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Usuario Editado\",\n  \"email\": \"editado@correo.com\",\n  \"password\": \"Password123\",\n  \"password_confirmation\": \"Password123\",\n  \"role\": \"Cliente\"\n}"
+                },
+                "url": { "raw": "{{base_url}}/admin/usuarios/1", "host": ["{{base_url}}"], "path": ["admin", "usuarios", "1"] }
+              }
+            },
+            {
+              "name": "Eliminar usuario",
+              "request": {
+                "method": "DELETE",
+                "header": [{ "key": "Accept", "value": "application/json" }],
+                "url": { "raw": "{{base_url}}/admin/usuarios/1", "host": ["{{base_url}}"], "path": ["admin", "usuarios", "1"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Roles y permisos",
+          "item": [
+            {
+              "name": "Listar roles",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Accept", "value": "application/json" }],
+                "url": { "raw": "{{base_url}}/admin/roles", "host": ["{{base_url}}"], "path": ["admin", "roles"] }
+              }
+            },
+            {
+              "name": "Listar permisos",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Accept", "value": "application/json" }],
+                "url": { "raw": "{{base_url}}/admin/permisos", "host": ["{{base_url}}"], "path": ["admin", "permisos"] }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Recepción",
+      "item": [
+        {
+          "name": "Reservas",
+          "item": [
+            {
+              "name": "Listar reservas",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Accept", "value": "application/json" }],
+                "url": { "raw": "{{base_url}}/recepcion/reservas", "host": ["{{base_url}}"], "path": ["recepcion", "reservas"] }
+              }
+            },
+            {
+              "name": "Crear reserva",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Accept", "value": "application/json" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": { "mode": "raw", "raw": "{\n  \"user_id\": 1,\n  \"room_id\": 1,\n  \"check_in_date\": \"2026-04-20\",\n  \"check_out_date\": \"2026-04-22\",\n  \"guests_count\": 2,\n  \"status\": \"pending\",\n  \"total_amount\": 1200.00,\n  \"notes\": \"Llegada tarde\"\n}" },
+                "url": { "raw": "{{base_url}}/recepcion/reservas", "host": ["{{base_url}}"], "path": ["recepcion", "reservas"] }
+              }
+            },
+            {
+              "name": "Actualizar reserva",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  { "key": "Accept", "value": "application/json" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": { "mode": "raw", "raw": "{\n  \"status\": \"confirmed\",\n  \"notes\": \"Confirmada por recepción\"\n}" },
+                "url": { "raw": "{{base_url}}/recepcion/reservas/1", "host": ["{{base_url}}"], "path": ["recepcion", "reservas", "1"] }
+              }
+            },
+            {
+              "name": "Cancelar reserva",
+              "request": {
+                "method": "DELETE",
+                "header": [{ "key": "Accept", "value": "application/json" }],
+                "url": { "raw": "{{base_url}}/recepcion/reservas/1", "host": ["{{base_url}}"], "path": ["recepcion", "reservas", "1"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Operación",
+          "item": [
+            {
+              "name": "Disponibilidad",
+              "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": { "raw": "{{base_url}}/recepcion/disponibilidad", "host": ["{{base_url}}"], "path": ["recepcion", "disponibilidad"] } }
+            },
+            {
+              "name": "Invitados",
+              "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": { "raw": "{{base_url}}/recepcion/invitados", "host": ["{{base_url}}"], "path": ["recepcion", "invitados"] } }
+            },
+            {
+              "name": "Check-in",
+              "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": { "raw": "{{base_url}}/recepcion/checkin", "host": ["{{base_url}}"], "path": ["recepcion", "checkin"] } }
+            },
+            {
+              "name": "Check-out",
+              "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": { "raw": "{{base_url}}/recepcion/checkout", "host": ["{{base_url}}"], "path": ["recepcion", "checkout"] } }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Caja",
+      "item": [
+        {
+          "name": "Facturación",
+          "item": [
+            { "name": "Listar facturas", "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": { "raw": "{{base_url}}/caja/facturacion", "host": ["{{base_url}}"], "path": ["caja", "facturacion"] } } },
+            { "name": "Crear factura", "request": { "method": "POST", "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"user_id\": 1,\n  \"reservation_id\": 1,\n  \"status\": \"draft\",\n  \"subtotal\": 1000.00,\n  \"tax\": 160.00,\n  \"total\": 1160.00\n}" }, "url": { "raw": "{{base_url}}/caja/facturacion", "host": ["{{base_url}}"], "path": ["caja", "facturacion"] } } },
+            { "name": "Actualizar factura", "request": { "method": "PUT", "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"status\": \"issued\"\n}" }, "url": { "raw": "{{base_url}}/caja/facturacion/1", "host": ["{{base_url}}"], "path": ["caja", "facturacion", "1"] } } },
+            { "name": "Eliminar factura", "request": { "method": "DELETE", "header": [{ "key": "Accept", "value": "application/json" }], "url": { "raw": "{{base_url}}/caja/facturacion/1", "host": ["{{base_url}}"], "path": ["caja", "facturacion", "1"] } } }
+          ]
+        },
+        {
+          "name": "Pagos",
+          "item": [
+            { "name": "Listar pagos", "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": { "raw": "{{base_url}}/caja/pagos", "host": ["{{base_url}}"], "path": ["caja", "pagos"] } } },
+            { "name": "Crear pago", "request": { "method": "POST", "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"user_id\": 1,\n  \"reservation_id\": 1,\n  \"invoice_id\": 1,\n  \"amount\": 1160.00,\n  \"method\": \"cash\",\n  \"status\": \"paid\",\n  \"reference\": \"CAJA-001\"\n}" }, "url": { "raw": "{{base_url}}/caja/pagos", "host": ["{{base_url}}"], "path": ["caja", "pagos"] } } },
+            { "name": "Actualizar pago", "request": { "method": "PUT", "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"status\": \"paid\"\n}" }, "url": { "raw": "{{base_url}}/caja/pagos/1", "host": ["{{base_url}}"], "path": ["caja", "pagos", "1"] } } },
+            { "name": "Eliminar pago", "request": { "method": "DELETE", "header": [{ "key": "Accept", "value": "application/json" }], "url": { "raw": "{{base_url}}/caja/pagos/1", "host": ["{{base_url}}"], "path": ["caja", "pagos", "1"] } } },
+            { "name": "Corte de caja", "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": { "raw": "{{base_url}}/caja/corte", "host": ["{{base_url}}"], "path": ["caja", "corte"] } } },
+            { "name": "Reportes", "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": { "raw": "{{base_url}}/caja/reportes", "host": ["{{base_url}}"], "path": ["caja", "reportes"] } } }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Limpieza",
+      "item": [
+        {
+          "name": "Habitaciones",
+          "item": [
+            { "name": "Listar habitaciones", "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": { "raw": "{{base_url}}/limpieza/habitaciones", "host": ["{{base_url}}"], "path": ["limpieza", "habitaciones"] } } },
+            { "name": "Crear habitación", "request": { "method": "POST", "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"number\": \"101\",\n  \"type\": \"Doble\",\n  \"status\": \"available\",\n  \"floor\": 1,\n  \"capacity\": 2,\n  \"price_per_night\": 850.00,\n  \"notes\": \"Vista al jardín\"\n}" }, "url": { "raw": "{{base_url}}/limpieza/habitaciones", "host": ["{{base_url}}"], "path": ["limpieza", "habitaciones"] } } },
+            { "name": "Actualizar habitación", "request": { "method": "PUT", "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"status\": \"dirty\"\n}" }, "url": { "raw": "{{base_url}}/limpieza/habitaciones/1", "host": ["{{base_url}}"], "path": ["limpieza", "habitaciones", "1"] } } },
+            { "name": "Eliminar habitación", "request": { "method": "DELETE", "header": [{ "key": "Accept", "value": "application/json" }], "url": { "raw": "{{base_url}}/limpieza/habitaciones/1", "host": ["{{base_url}}"], "path": ["limpieza", "habitaciones", "1"] } } },
+            { "name": "Cambiar estado", "request": { "method": "PATCH", "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"status\": \"available\"\n}" }, "url": { "raw": "{{base_url}}/limpieza/habitaciones/1/estado", "host": ["{{base_url}}"], "path": ["limpieza", "habitaciones", "1", "estado"] } } },
+            { "name": "Estados", "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": { "raw": "{{base_url}}/limpieza/estados", "host": ["{{base_url}}"], "path": ["limpieza", "estados"] } } }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Cliente",
+      "item": [
+        {
+          "name": "Perfil",
+          "item": [
+            { "name": "Ver perfil", "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": { "raw": "{{base_url}}/cliente/perfil", "host": ["{{base_url}}"], "path": ["cliente", "perfil"] } } },
+            { "name": "Actualizar perfil", "request": { "method": "PUT", "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"name\": \"Itahy Cliente\",\n  \"email\": \"itahy@gmail.com\"\n}" }, "url": { "raw": "{{base_url}}/cliente/perfil", "host": ["{{base_url}}"], "path": ["cliente", "perfil"] } } }
+          ]
+        },
+        {
+          "name": "Reservas",
+          "item": [
+            { "name": "Mis reservas", "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": { "raw": "{{base_url}}/cliente/reservas", "host": ["{{base_url}}"], "path": ["cliente", "reservas"] } } },
+            { "name": "Crear reserva", "request": { "method": "POST", "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"room_id\": 1,\n  \"check_in_date\": \"2026-04-20\",\n  \"check_out_date\": \"2026-04-22\",\n  \"guests_count\": 2,\n  \"notes\": \"Reserva de prueba\"\n}" }, "url": { "raw": "{{base_url}}/cliente/reservas", "host": ["{{base_url}}"], "path": ["cliente", "reservas"] } } },
+            { "name": "Cancelar reserva", "request": { "method": "DELETE", "header": [{ "key": "Accept", "value": "application/json" }], "url": { "raw": "{{base_url}}/cliente/reservas/1", "host": ["{{base_url}}"], "path": ["cliente", "reservas", "1"] } } }
+          ]
+        },
+        {
+          "name": "Facturas y pagos",
+          "item": [
+            { "name": "Mis facturas", "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": { "raw": "{{base_url}}/cliente/facturas", "host": ["{{base_url}}"], "path": ["cliente", "facturas"] } } },
+            { "name": "Mis pagos", "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": { "raw": "{{base_url}}/cliente/pagos", "host": ["{{base_url}}"], "path": ["cliente", "pagos"] } } }
+          ]
+        }
+      ]
+    }
+  ]
+}
