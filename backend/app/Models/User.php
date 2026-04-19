@@ -29,6 +29,7 @@ class User extends Authenticatable
         'password',
         'must_change_password',
         'password_changed_at',
+        'activo',
     ];
 
     /**
@@ -70,6 +71,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'must_change_password' => 'boolean',
             'password_changed_at' => 'datetime',
+            'activo' => 'boolean',
             'password' => 'hashed',
         ];
     }
@@ -107,5 +109,10 @@ class User extends Authenticatable
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);
+    }
+
+    public function bitacoras(): HasMany
+    {
+        return $this->hasMany(Bitacora::class, 'usuario_id');
     }
 }

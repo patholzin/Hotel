@@ -1,13 +1,17 @@
 export const ENDPOINTS_API = {
   autenticacion: {
     iniciarSesion: '/api/autenticacion/iniciar-sesion',
+    registroCliente: '/api/autenticacion/registro-cliente',
     cerrarSesion: '/api/autenticacion/cerrar-sesion',
     perfil: '/api/autenticacion/perfil',
+    cambiarContrasena: '/api/autenticacion/cambiar-contrasena',
   },
   admin: {
-    usuarios: '/admin/usuarios',
-    roles: '/admin/roles',
-    permisos: '/admin/permisos',
+    usuarios: '/api/admin/usuarios',
+    estadoUsuario: (id: number | string) => `/api/admin/usuarios/${id}/estado`,
+    bitacora: '/api/admin/bitacora',
+    roles: '/api/admin/roles',
+    permisos: '/api/admin/permisos',
   },
   recepcion: {
     reservas: '/recepcion/reservas',

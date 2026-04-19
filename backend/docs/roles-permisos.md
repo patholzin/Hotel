@@ -155,12 +155,14 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
 - `POST /api/autenticacion/iniciar-sesion`
 - `POST /api/autenticacion/cerrar-sesion`
 - `GET /api/autenticacion/perfil`
+- `PUT /api/autenticacion/cambiar-contrasena`
 
 Compatibilidad temporal disponible:
 
 - `POST /api/auth/login`
 - `POST /api/auth/logout`
 - `GET /api/auth/me`
+- `PUT /api/auth/change-password`
 
 ### Respuesta de login y me
 

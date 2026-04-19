@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Cashier;
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
 use App\Models\Payment;
+use App\Services\BitacoraService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -33,6 +34,12 @@ class CashierController extends Controller
             'cancelled_at' => $validated['status'] === 'cancelled' ? now() : null,
         ]));
 
+        BitacoraService::registrar($request, 'facturas.crear', 'factura', $invoice->id, [
+            'numero' => $invoice->number,
+            'estado' => $invoice->status,
+            'total' => $invoice->total,
+        ]);
+
         return response()->json(['message' => 'Factura creada', 'data' => $invoice->load(['user', 'reservation'])], 201);
     }
 
@@ -55,12 +62,23 @@ class CashierController extends Controller
 
         $invoice->update($validated);
 
+        BitacoraService::registrar($request, 'facturas.actualizar', 'factura', $invoice->id, [
+            'cambios' => array_keys($validated),
+            'estado' => $invoice->status,
+        ]);
+
         return response()->json(['message' => 'Factura actualizada', 'data' => $invoice->load(['user', 'reservation'])]);
     }
 
-    public function destroyInvoice(Invoice $invoice): JsonResponse
+    public function destroyInvoice(Request $request, Invoice $invoice): JsonResponse
     {
+        $invoiceId = $invoice->id;
+        $number = $invoice->number;
         $invoice->delete();
+
+        BitacoraService::registrar($request, 'facturas.eliminar', 'factura', $invoiceId, [
+            'numero' => $number,
+        ]);
 
         return response()->json(['message' => 'Factura eliminada']);
     }
@@ -86,6 +104,12 @@ class CashierController extends Controller
             'paid_at' => $validated['status'] === 'paid' ? now() : null,
         ]));
 
+        BitacoraService::registrar($request, 'pagos.crear', 'pago', $payment->id, [
+            'monto' => $payment->amount,
+            'estado' => $payment->status,
+            'metodo' => $payment->method,
+        ]);
+
         return response()->json(['message' => 'Pago registrado', 'data' => $payment->load(['user', 'reservation', 'invoice'])], 201);
     }
 
@@ -104,12 +128,24 @@ class CashierController extends Controller
 
         $payment->update($validated);
 
+        BitacoraService::registrar($request, 'pagos.actualizar', 'pago', $payment->id, [
+            'cambios' => array_keys($validated),
+            'estado' => $payment->status,
+            'monto' => $payment->amount,
+        ]);
+
         return response()->json(['message' => 'Pago actualizado', 'data' => $payment->load(['user', 'reservation', 'invoice'])]);
     }
 
-    public function destroyPayment(Payment $payment): JsonResponse
+    public function destroyPayment(Request $request, Payment $payment): JsonResponse
     {
+        $paymentId = $payment->id;
+        $amount = $payment->amount;
         $payment->delete();
+
+        BitacoraService::registrar($request, 'pagos.eliminar', 'pago', $paymentId, [
+            'monto' => $amount,
+        ]);
 
         return response()->json(['message' => 'Pago eliminado']);
     }

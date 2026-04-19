@@ -26,9 +26,11 @@ class EnsurePasswordIsChanged
             'api.autenticacion.iniciar-sesion',
             'api.autenticacion.cerrar-sesion',
             'api.autenticacion.perfil',
+            'api.autenticacion.cambiar-contrasena',
             'api.auth.login',
             'api.auth.logout',
-            'api.auth.me'
+            'api.auth.me',
+            'api.auth.change-password'
         )) {
             return $next($request);
         }

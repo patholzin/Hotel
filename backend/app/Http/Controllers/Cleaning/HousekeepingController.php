@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cleaning;
 
 use App\Http\Controllers\Controller;
 use App\Models\Room;
+use App\Services\BitacoraService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -16,11 +17,19 @@ class HousekeepingController extends Controller
 
     public function changeRoomStatus(Request $request, Room $room): JsonResponse
     {
+        $statusAnterior = $room->status;
+
         $validated = $request->validate([
             'status' => ['required', 'in:available,dirty,occupied,out_of_service'],
         ]);
 
         $room->update(['status' => $validated['status']]);
+
+        BitacoraService::registrar($request, 'habitaciones.estado', 'habitacion', $room->id, [
+            'estado_anterior' => $statusAnterior,
+            'estado_nuevo' => $room->status,
+            'numero' => $room->number,
+        ]);
 
         return response()->json(['message' => 'Estado actualizado', 'data' => $room]);
     }
@@ -39,6 +48,11 @@ class HousekeepingController extends Controller
 
         $room = Room::create($validated);
 
+        BitacoraService::registrar($request, 'habitaciones.crear', 'habitacion', $room->id, [
+            'numero' => $room->number,
+            'estado' => $room->status,
+        ]);
+
         return response()->json(['message' => 'Habitación creada', 'data' => $room], 201);
     }
 
@@ -56,12 +70,24 @@ class HousekeepingController extends Controller
 
         $room->update($validated);
 
+        BitacoraService::registrar($request, 'habitaciones.actualizar', 'habitacion', $room->id, [
+            'cambios' => array_keys($validated),
+            'estado' => $room->status,
+            'numero' => $room->number,
+        ]);
+
         return response()->json(['message' => 'Habitación actualizada', 'data' => $room]);
     }
 
-    public function destroyRoom(Room $room): JsonResponse
+    public function destroyRoom(Request $request, Room $room): JsonResponse
     {
+        $roomId = $room->id;
+        $number = $room->number;
         $room->delete();
+
+        BitacoraService::registrar($request, 'habitaciones.eliminar', 'habitacion', $roomId, [
+            'numero' => $number,
+        ]);
 
         return response()->json(['message' => 'Habitación eliminada']);
     }

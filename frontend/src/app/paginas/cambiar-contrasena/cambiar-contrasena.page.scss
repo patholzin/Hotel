@@ -1,0 +1,78 @@
+.auth-shell {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.auth-card {
+  width: min(100%, 520px);
+  padding: 32px;
+  border: 1px solid var(--panel-border);
+  border-radius: 28px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.78rem;
+}
+
+h1 {
+  margin: 6px 0 8px;
+  font-size: 2.2rem;
+}
+
+.subtitle,
+span,
+.message {
+  color: var(--text-muted);
+}
+
+.auth-form {
+  display: grid;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+label {
+  display: grid;
+  gap: 8px;
+}
+
+input {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-main);
+  border-radius: 16px;
+  padding: 14px 16px;
+  outline: none;
+}
+
+button {
+  border: 0;
+  border-radius: 16px;
+  padding: 12px 16px;
+  cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+.actions button:first-child {
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: #1c1406;
+  font-weight: 700;
+}
+
+.actions .ghost {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
+}

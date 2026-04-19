@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\BitacoraService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -41,6 +42,11 @@ class ManagementController extends Controller
 
         $user->syncRoles([$validated['role']]);
 
+        BitacoraService::registrar($request, 'usuarios.crear', 'usuario', $user->id, [
+            'email' => $user->email,
+            'rol' => $validated['role'],
+        ]);
+
         return response()->json(['message' => 'Usuario creado', 'data' => $user->load('roles')], 201);
     }
 
@@ -65,14 +71,44 @@ class ManagementController extends Controller
             $user->syncRoles([$validated['role']]);
         }
 
+        BitacoraService::registrar($request, 'usuarios.actualizar', 'usuario', $user->id, [
+            'cambios' => array_keys($validated),
+        ]);
+
         return response()->json(['message' => 'Usuario actualizado', 'data' => $user->load('roles')]);
     }
 
     public function destroyUser(User $user): JsonResponse
     {
+        $userId = $user->id;
+        $email = $user->email;
         $user->delete();
 
+        BitacoraService::registrar(request(), 'usuarios.eliminar', 'usuario', $userId, [
+            'email' => $email,
+        ]);
+
         return response()->json(['message' => 'Usuario eliminado']);
+    }
+
+    public function cambiarEstadoUsuario(Request $request, User $user): JsonResponse
+    {
+        $validated = $request->validate([
+            'activo' => ['required', 'boolean'],
+        ]);
+
+        $user->update([
+            'activo' => (bool) $validated['activo'],
+        ]);
+
+        BitacoraService::registrar($request, 'usuarios.estado', 'usuario', $user->id, [
+            'activo' => (bool) $user->activo,
+        ]);
+
+        return response()->json([
+            'message' => $user->activo ? 'Usuario activado' : 'Usuario inactivado',
+            'data' => $user->load('roles'),
+        ]);
     }
 
     public function roles(Request $request): JsonResponse

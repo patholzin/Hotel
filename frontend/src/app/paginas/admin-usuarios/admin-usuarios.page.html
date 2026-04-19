@@ -1,0 +1,168 @@
+<main class="panel-shell">
+  <section class="panel-layout">
+    <aside class="sidebar" aria-label="Menu principal">
+      <div class="brand-box">
+        <img src="/logo.png" alt="Logo Hotel Juquilita" />
+      </div>
+
+      <nav class="menu-list">
+        @for (item of menuItems(); track item.label) {
+          <a href="#" (click)="navegar(item, $event)">
+            <span class="menu-icon" aria-hidden="true">
+              @switch (item.icono) {
+                @case ('dashboard') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M3 13h8V3H3v10zm10 8h8V11h-8v10zM3 21h8v-6H3v6zm10-18v6h8V3h-8z" /></svg>
+                }
+                @case ('usuarios') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm9 1v6M15 15h6" /></svg>
+                }
+                @case ('bitacora') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M8 3h8a2 2 0 0 1 2 2v16H6V5a2 2 0 0 1 2-2zm0 0V1m8 2V1M9 9h6M9 13h6M9 17h4" /></svg>
+                }
+                @case ('reservaciones') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M7 2v3M17 2v3M3 9h18M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm3 8h3v3H8v-3z" /></svg>
+                }
+                @case ('clientes') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm8 1a4 4 0 1 0 0-8m6 17v-2a4 4 0 0 0-3-3.87" /></svg>
+                }
+                @case ('habitaciones') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M3 11h18v8H3v-8zm2 0V7a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4M3 19v2M21 19v2" /></svg>
+                }
+                @case ('finanzas') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7H14.5a3.5 3.5 0 0 1 0 7H6" /></svg>
+                }
+                @case ('reportes') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M4 19h16M7 16V9M12 16V5M17 16v-3" /></svg>
+                }
+                @case ('configuracion') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7zm7.4-2.1a1 1 0 0 0 .2 1.1l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1 1 0 0 0-1.1-.2 1 1 0 0 0-.6.9V19a2 2 0 1 1-4 0v-.2a1 1 0 0 0-.6-.9 1 1 0 0 0-1.1.2l-.1.1a2 2 0 0 1-2.8-2.8l.1-.1a1 1 0 0 0 .2-1.1 1 1 0 0 0-.9-.6H5a2 2 0 1 1 0-4h.2a1 1 0 0 0 .9-.6 1 1 0 0 0-.2-1.1l-.1-.1a2 2 0 0 1 2.8-2.8l.1.1a1 1 0 0 0 1.1.2 1 1 0 0 0 .6-.9V5a2 2 0 1 1 4 0v.2a1 1 0 0 0 .6.9 1 1 0 0 0 1.1-.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1 1 0 0 0-.2 1.1 1 1 0 0 0 .9.6H19a2 2 0 1 1 0 4h-.2a1 1 0 0 0-.9.6z" /></svg>
+                }
+                @default {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M3 13h8V3H3v10zm10 8h8V11h-8v10zM3 21h8v-6H3v6zm10-18v6h8V3h-8z" /></svg>
+                }
+              }
+            </span>
+            <span>{{ item.label }}</span>
+          </a>
+        }
+      </nav>
+
+      <div class="profile-box">
+        <p class="name">{{ usuario()?.name }}</p>
+        <p class="role">{{ rolPrincipal() }}</p>
+      </div>
+
+      <button type="button" class="logout-button" (click)="salir()">Cerrar sesion</button>
+    </aside>
+
+    <section class="panel-main">
+      <header class="usuarios-header">
+        <div>
+          <p class="eyebrow">Administracion</p>
+          <h1>Gestion de usuarios</h1>
+          <p class="subtitle">Cree, actualice y administre usuarios del sistema segun sus roles.</p>
+        </div>
+      </header>
+
+      <section class="form-card">
+        <h2>{{ esEdicion ? 'Editar usuario' : 'Crear usuario' }}</h2>
+
+        <form [formGroup]="formulario" (ngSubmit)="enviar()" class="usuarios-form">
+          <label>
+            <span>Nombre</span>
+            <input type="text" formControlName="name" placeholder="Nombre completo" />
+          </label>
+
+          <label>
+            <span>Correo electronico</span>
+            <input type="email" formControlName="email" placeholder="correo@hotel.com" />
+          </label>
+
+          <label>
+            <span>Rol</span>
+            <select formControlName="role">
+              @for (rol of rolesDisponibles; track rol) {
+                <option [value]="rol">{{ rol }}</option>
+              }
+            </select>
+          </label>
+
+          <label>
+            <span>Contrasena {{ esEdicion ? '(opcional)' : '' }}</span>
+            <input type="password" formControlName="password" placeholder="Minimo 8 caracteres" />
+          </label>
+
+          <label>
+            <span>Confirmar contrasena</span>
+            <input type="password" formControlName="password_confirmation" placeholder="Repita la contrasena" />
+          </label>
+
+          @if (error()) {
+            <p class="error" role="alert">{{ error() }}</p>
+          }
+
+          @if (exito()) {
+            <p class="success">{{ exito() }}</p>
+          }
+
+          <div class="form-actions">
+            <button type="submit" [disabled]="guardando()">{{ guardando() ? 'Guardando...' : (esEdicion ? 'Actualizar usuario' : 'Crear usuario') }}</button>
+
+            @if (esEdicion) {
+              <button type="button" class="secondary" (click)="cancelarEdicion()">Cancelar</button>
+            }
+          </div>
+        </form>
+      </section>
+
+      <section class="tabla-card">
+        <h2>Listado de usuarios</h2>
+
+        @if (cargando()) {
+          <p class="empty">Cargando usuarios...</p>
+        } @else if (!usuarios().length) {
+          <p class="empty">No hay usuarios registrados.</p>
+        } @else {
+          <div class="tabla-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Correo</th>
+                  <th>Rol</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (usuarioItem of usuarios(); track usuarioItem.id) {
+                  <tr>
+                    <td>{{ usuarioItem.name }}</td>
+                    <td>{{ usuarioItem.email }}</td>
+                    <td>{{ usuarioItem.roles[0]?.name ?? 'Sin rol' }}</td>
+                    <td>
+                      <span class="estado" [class.inactivo]="!usuarioItem.activo">{{ usuarioItem.activo ? 'Activo' : 'Inactivo' }}</span>
+                    </td>
+                    <td class="acciones">
+                      <button type="button" class="action-button" (click)="editar(usuarioItem)">Editar</button>
+                      <button
+                        type="button"
+                        class="action-button"
+                        [class.warn]="usuarioItem.activo"
+                        [class.ok]="!usuarioItem.activo"
+                        (click)="cambiarEstado(usuarioItem)"
+                      >
+                        {{ usuarioItem.activo ? 'Inactivar' : 'Activar' }}
+                      </button>
+                      <button type="button" class="action-button danger" (click)="eliminar(usuarioItem)">Eliminar</button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </section>
+    </section>
+  </section>
+</main>

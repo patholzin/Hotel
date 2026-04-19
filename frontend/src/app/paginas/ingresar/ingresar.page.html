@@ -1,0 +1,83 @@
+<main class="auth-shell">
+  <section class="auth-layout">
+    <div class="brand-panel">
+      <img class="brand-logo" src="/logo.png" alt="Logo de Hotel Juquilita" />
+
+      <div class="brand-copy">
+        <p class="eyebrow">Hotel Juquilita</p>
+        <h1>Acceso al sistema</h1>
+        <p class="subtitle">
+          Ingrese con sus credenciales para administrar reservaciones, habitaciones y operaciones del hotel.
+        </p>
+      </div>
+
+      <dl class="highlights" aria-label="Características del acceso">
+        <div>
+          <dt>Recepción</dt>
+          <dd>Registro y control de estancias</dd>
+        </div>
+        <div>
+          <dt>Administración</dt>
+          <dd>Gestión de tarifas y usuarios</dd>
+        </div>
+        <div>
+          <dt>Atención</dt>
+          <dd>Acceso rápido y seguro</dd>
+        </div>
+      </dl>
+    </div>
+
+    <section class="auth-card" aria-label="Formulario de inicio de sesión">
+      <div class="card-header">
+        <p class="card-kicker">Bienvenido</p>
+        <h2>Iniciar sesión</h2>
+        <p class="card-description">Utilice su correo electrónico institucional y su contraseña asignada.</p>
+      </div>
+
+      <form [formGroup]="formulario" (ngSubmit)="enviar()" class="auth-form">
+        <label>
+          <span>Correo electrónico</span>
+          <input type="email" formControlName="email" placeholder="nombre@hotel.com" autocomplete="email" />
+        </label>
+
+        <label>
+          <span>Contraseña</span>
+          <input type="password" formControlName="password" placeholder="Ingrese su contraseña" autocomplete="current-password" />
+        </label>
+
+        @if (error()) {
+          <p class="error" role="alert">{{ error() }}</p>
+        }
+
+        <div class="form-actions">
+          <label class="remember-me">
+            <input type="checkbox" />
+            <span>Recordarme</span>
+          </label>
+
+          <button type="button" class="link-button">¿Olvidó su contraseña?</button>
+        </div>
+
+        <button type="submit" class="submit-button" [disabled]="cargando()">
+          {{ cargando() ? 'Validando acceso...' : 'Ingresar al sistema' }}
+        </button>
+
+        <p class="register-cta">
+          ¿No tienes cuenta?
+          <a routerLink="/registro-cliente">Regístrate como cliente</a>
+        </p>
+      </form>
+
+      <div class="accounts">
+        <p>Accesos de prueba</p>
+        <ul>
+          <li>admin@gmail.com / admin123</li>
+          <li>recep@gmail.com / recep123</li>
+          <li>cajero@gmail.com / cajero123</li>
+          <li>limpieza@gmail.com / limp123</li>
+          <li>itahy@gmail.com / itahy123</li>
+        </ul>
+      </div>
+    </section>
+  </section>
+</main>

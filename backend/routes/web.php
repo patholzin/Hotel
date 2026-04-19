@@ -28,6 +28,7 @@ Route::middleware(['auth', 'password.changed', 'role:Administrador'])->prefix('a
     Route::get('/usuarios', [AdminManagementController::class, 'users'])->middleware('permission:usuarios.leer')->name('usuarios.index');
     Route::post('/usuarios', [AdminManagementController::class, 'storeUser'])->middleware('permission:usuarios.crear')->name('usuarios.store');
     Route::put('/usuarios/{user}', [AdminManagementController::class, 'updateUser'])->middleware('permission:usuarios.actualizar')->name('usuarios.update');
+    Route::patch('/usuarios/{user}/estado', [AdminManagementController::class, 'cambiarEstadoUsuario'])->middleware('permission:usuarios.desactivar')->name('usuarios.estado');
     Route::delete('/usuarios/{user}', [AdminManagementController::class, 'destroyUser'])->middleware('permission:usuarios.desactivar')->name('usuarios.destroy');
     Route::get('/roles', [AdminManagementController::class, 'roles'])->middleware('permission:roles.leer')->name('roles.index');
     Route::get('/permisos', [AdminManagementController::class, 'permissions'])->middleware('permission:permisos.leer')->name('permisos.index');

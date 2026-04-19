@@ -1,0 +1,116 @@
+<main class="panel-shell">
+  <section class="panel-layout">
+    <aside class="sidebar" aria-label="Menu principal">
+      <div class="brand-box">
+        <img src="/logo.png" alt="Logo Hotel Juquilita" />
+      </div>
+
+      <nav class="menu-list">
+        @for (item of menuItems(); track item.label) {
+          <a href="#" (click)="navegar(item, $event)">
+            <span class="menu-icon" aria-hidden="true">
+              @switch (item.icono) {
+                @case ('dashboard') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M3 13h8V3H3v10zm10 8h8V11h-8v10zM3 21h8v-6H3v6zm10-18v6h8V3h-8z" /></svg>
+                }
+                @case ('usuarios') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm9 1v6M15 15h6" /></svg>
+                }
+                @case ('bitacora') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M8 3h8a2 2 0 0 1 2 2v16H6V5a2 2 0 0 1 2-2zm0 0V1m8 2V1M9 9h6M9 13h6M9 17h4" /></svg>
+                }
+                @case ('reservaciones') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M7 2v3M17 2v3M3 9h18M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm3 8h3v3H8v-3z" /></svg>
+                }
+                @case ('clientes') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm8 1a4 4 0 1 0 0-8m6 17v-2a4 4 0 0 0-3-3.87" /></svg>
+                }
+                @case ('habitaciones') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M3 11h18v8H3v-8zm2 0V7a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4M3 19v2M21 19v2" /></svg>
+                }
+                @case ('finanzas') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7H14.5a3.5 3.5 0 0 1 0 7H6" /></svg>
+                }
+                @case ('reportes') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M4 19h16M7 16V9M12 16V5M17 16v-3" /></svg>
+                }
+                @case ('configuracion') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M12 15.5A3.5 3.5 0 1 0 12 8.5a3.5 3.5 0 0 0 0 7zm7.4-2.1a1 1 0 0 0 .2 1.1l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1 1 0 0 0-1.1-.2 1 1 0 0 0-.6.9V19a2 2 0 1 1-4 0v-.2a1 1 0 0 0-.6-.9 1 1 0 0 0-1.1.2l-.1.1a2 2 0 0 1-2.8-2.8l.1-.1a1 1 0 0 0 .2-1.1 1 1 0 0 0-.9-.6H5a2 2 0 1 1 0-4h.2a1 1 0 0 0 .9-.6 1 1 0 0 0-.2-1.1l-.1-.1a2 2 0 0 1 2.8-2.8l.1.1a1 1 0 0 0 1.1.2 1 1 0 0 0 .6-.9V5a2 2 0 1 1 4 0v.2a1 1 0 0 0 .6.9 1 1 0 0 0 1.1-.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1 1 0 0 0-.2 1.1 1 1 0 0 0 .9.6H19a2 2 0 1 1 0 4h-.2a1 1 0 0 0-.9.6z" /></svg>
+                }
+                @case ('disponibilidad') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M4 12h16M12 4v16" /><circle cx="12" cy="12" r="9" /></svg>
+                }
+                @case ('huespedes') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M4 20v-1a4 4 0 0 1 4-4h3a4 4 0 0 1 4 4v1M9.5 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" /></svg>
+                }
+                @case ('checkin') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M4 12h10M10 8l4 4-4 4M20 4v16" /></svg>
+                }
+                @case ('facturas') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M7 3h10v18l-2-1-2 1-2-1-2 1-2-1V3zm2 5h6M9 12h6M9 16h4" /></svg>
+                }
+                @case ('pagos') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M3 7h18v10H3V7zm0 3h18M7 14h2" /></svg>
+                }
+                @case ('caja') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M3 7h18v12H3V7zm4-3h10v3H7V4zm5 8h.01" /></svg>
+                }
+                @case ('estados') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" /><circle cx="12" cy="12" r="9" /></svg>
+                }
+                @case ('estancias') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M3 11h18v8H3v-8zm2 0V8a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v3" /></svg>
+                }
+                @case ('perfil') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" /></svg>
+                }
+              }
+            </span>
+            <span>{{ item.label }}</span>
+          </a>
+        }
+      </nav>
+
+      <div class="profile-box">
+        <p class="name">{{ usuario()?.name }}</p>
+        <p class="role">{{ rolPrincipal() }}</p>
+      </div>
+
+      <button type="button" class="logout-button" (click)="salir()">Cerrar sesion</button>
+    </aside>
+
+    <section class="panel-main">
+      <header class="hero-header">
+        <p class="eyebrow">Panel principal</p>
+        <h1>Bienvenido de nuevo, {{ usuario()?.name }}</h1>
+        <p class="subtitle">{{ resumenRol() }}</p>
+      </header>
+
+      <section class="stats-grid">
+        @for (metrica of metricas(); track metrica.etiqueta) {
+          <article class="stat-card">
+            <p>{{ metrica.etiqueta }}</p>
+            <h2>{{ metrica.valor }}</h2>
+          </article>
+        }
+      </section>
+
+      <section class="meta-info">
+        <article>
+          <h3>Roles asignados</h3>
+          <p>{{ usuario()?.roles?.join(', ') || 'No disponible' }}</p>
+        </article>
+
+        <article>
+          <h3>Permisos activos</h3>
+          <p>{{ usuario()?.permissions?.length || 0 }} permisos cargados</p>
+        </article>
+
+        <article>
+          <h3>Estado de seguridad</h3>
+          <p>{{ usuario()?.must_change_password ? 'Cambio de contrasena pendiente' : 'Contrasena actualizada' }}</p>
+        </article>
+      </section>
+    </section>
+  </section>
+</main>

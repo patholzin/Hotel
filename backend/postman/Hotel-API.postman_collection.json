@@ -107,6 +107,31 @@
                   "path": ["password", "change"]
                 }
               }
+            },
+            {
+              "name": "Actualizar contraseña API",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"current_password\": \"admin123\",\n  \"password\": \"NuevaClave123\",\n  \"password_confirmation\": \"NuevaClave123\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/autenticacion/cambiar-contrasena",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "autenticacion", "cambiar-contrasena"]
+                }
+              }
             }
           ]
         }
