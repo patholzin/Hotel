@@ -1,0 +1,261 @@
+<main class="panel-shell">
+  <section class="panel-layout">
+    <aside class="sidebar" aria-label="Menu principal">
+      <div class="brand-box">
+        <img src="/logo.png" alt="Logo Hotel Juquilita" />
+      </div>
+
+      <nav class="menu-list">
+        @for (item of menuItems(); track item.label) {
+          <a href="#" (click)="navegar(item, $event)">
+            <span class="menu-icon" aria-hidden="true">
+              @switch (item.icono) {
+                @case ('dashboard') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M3 13h8V3H3v10zm10 8h8V11h-8v10zM3 21h8v-6H3v6zm10-18v6h8V3h-8z" /></svg>
+                }
+                @case ('reservaciones') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M7 2v3M17 2v3M3 9h18M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm3 8h3v3H8v-3z" /></svg>
+                }
+                @case ('disponibilidad') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M3 11h18v8H3v-8zm2 0V7a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4M3 19v2M21 19v2" /></svg>
+                }
+                @case ('huespedes') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm8 1a4 4 0 1 0 0-8m6 17v-2a4 4 0 0 0-3-3.87" /></svg>
+                }
+                @case ('facturas') {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M7 3h10v18l-2-1-2 1-2-1-2 1-2-1V3zm2 5h6M9 12h6M9 16h4" /></svg>
+                }
+                @default {
+                  <svg viewBox="0 0 24 24" fill="none"><path d="M3 13h8V3H3v10zm10 8h8V11h-8v10zM3 21h8v-6H3v6zm10-18v6h8V3h-8z" /></svg>
+                }
+              }
+            </span>
+            <span>{{ item.label }}</span>
+          </a>
+        }
+      </nav>
+
+      <div class="profile-box">
+        <p class="name">{{ usuario()?.name }}</p>
+        <p class="role">{{ rolPrincipal() }}</p>
+      </div>
+
+      <button type="button" class="logout-button" (click)="salir()">Cerrar sesion</button>
+    </aside>
+
+    <section class="panel-main">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">Recepcion</p>
+          <h1>Gestion de reservaciones</h1>
+          <p class="subtitle">Administra reservaciones y consulta la disponibilidad de habitaciones.</p>
+        </div>
+      </header>
+
+      <!-- Tabs -->
+      <div class="tabs-bar">
+        <button
+          type="button"
+          class="tab-btn"
+          [class.active]="tabActiva() === 'reservas'"
+          (click)="cambiarTab('reservas')"
+        >
+          <svg viewBox="0 0 24 24" fill="none"><path d="M7 2v3M17 2v3M3 9h18M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm3 8h3v3H8v-3z" /></svg>
+          Reservaciones
+        </button>
+        <button
+          type="button"
+          class="tab-btn"
+          [class.active]="tabActiva() === 'disponibilidad'"
+          (click)="cambiarTab('disponibilidad')"
+        >
+          <svg viewBox="0 0 24 24" fill="none"><path d="M3 11h18v8H3v-8zm2 0V7a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4M3 19v2M21 19v2" /></svg>
+          Disponibilidad
+        </button>
+      </div>
+
+      <!-- Tab: Reservas -->
+      @if (tabActiva() === 'reservas') {
+        <!-- Formulario -->
+        <section class="form-card">
+          <h2>{{ esEdicion ? 'Editar reservacion' : 'Nueva reservacion' }}</h2>
+
+          <form [formGroup]="formulario" (ngSubmit)="enviar()" class="reservas-form">
+            <label>
+              <span>ID del cliente</span>
+              <input type="number" formControlName="user_id" placeholder="ID del usuario cliente" />
+            </label>
+
+            <label>
+              <span>Habitacion (opcional)</span>
+              <select formControlName="room_id">
+                <option value="">Sin asignar</option>
+                @for (hab of habitacionesDisponibles(); track hab.id) {
+                  <option [value]="hab.id">
+                    #{{ hab.number }} — {{ hab.type }} (Piso {{ hab.floor ?? '?' }})
+                  </option>
+                }
+              </select>
+            </label>
+
+            <label>
+              <span>Fecha de entrada</span>
+              <input type="date" formControlName="check_in_date" />
+            </label>
+
+            <label>
+              <span>Fecha de salida</span>
+              <input type="date" formControlName="check_out_date" />
+            </label>
+
+            <label>
+              <span>Numero de huespedes</span>
+              <input type="number" formControlName="guests_count" min="1" placeholder="1" />
+            </label>
+
+            <label>
+              <span>Estado</span>
+              <select formControlName="status">
+                @for (est of estadosReservacion; track est.valor) {
+                  <option [value]="est.valor">{{ est.etiqueta }}</option>
+                }
+              </select>
+            </label>
+
+            <label>
+              <span>Total ($)</span>
+              <input type="number" formControlName="total_amount" min="0" step="0.01" placeholder="0.00" />
+            </label>
+
+            <label class="full-width">
+              <span>Notas</span>
+              <textarea formControlName="notes" placeholder="Notas adicionales..."></textarea>
+            </label>
+
+            @if (error()) {
+              <p class="msg error" role="alert">{{ error() }}</p>
+            }
+            @if (exito()) {
+              <p class="msg success">{{ exito() }}</p>
+            }
+
+            <div class="form-actions">
+              <button type="submit" [disabled]="guardando()">
+                {{ guardando() ? 'Guardando...' : (esEdicion ? 'Actualizar reservacion' : 'Crear reservacion') }}
+              </button>
+              @if (esEdicion) {
+                <button type="button" class="secondary" (click)="cancelarEdicion()">Cancelar</button>
+              }
+            </div>
+          </form>
+        </section>
+
+        <!-- Filtros + Tabla -->
+        <section class="tabla-card">
+          <div class="tabla-header">
+            <h2>Listado de reservaciones</h2>
+            <div class="filtro-grupo">
+              <label class="filtro-label" for="filtro-estado">Filtrar:</label>
+              <select id="filtro-estado" class="filtro-select" [value]="filtroEstado()" (change)="filtroEstado.set($any($event.target).value)">
+                <option value="todos">Todos</option>
+                @for (est of estadosReservacion; track est.valor) {
+                  <option [value]="est.valor">{{ est.etiqueta }}</option>
+                }
+              </select>
+            </div>
+          </div>
+
+          @if (cargando()) {
+            <p class="empty">Cargando reservaciones...</p>
+          } @else if (!reservacionesFiltradas().length) {
+            <p class="empty">No hay reservaciones para mostrar.</p>
+          } @else {
+            <div class="tabla-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Codigo</th>
+                    <th>Cliente</th>
+                    <th>Habitacion</th>
+                    <th>Entrada</th>
+                    <th>Salida</th>
+                    <th>Huespedes</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (res of reservacionesFiltradas(); track res.id) {
+                    <tr>
+                      <td class="codigo">{{ res.code }}</td>
+                      <td>{{ res.user?.name ?? ('ID ' + res.user_id) }}</td>
+                      <td>{{ res.room ? ('#' + res.room.number) : '—' }}</td>
+                      <td>{{ res.check_in_date | date:'dd/MM/yyyy' }}</td>
+                      <td>{{ res.check_out_date | date:'dd/MM/yyyy' }}</td>
+                      <td class="center">{{ res.guests_count }}</td>
+                      <td>${{ res.total_amount }}</td>
+                      <td>
+                        <span class="badge" [ngClass]="'badge-' + res.status">
+                          {{ etiquetaEstado(res.status) }}
+                        </span>
+                      </td>
+                      <td class="acciones">
+                        @if (res.status === 'confirmed') {
+                          <button type="button" class="action-button ok" (click)="cambiarEstadoRapido(res, 'checked_in')">Check-in</button>
+                        }
+                        @if (res.status === 'checked_in') {
+                          <button type="button" class="action-button warn" (click)="cambiarEstadoRapido(res, 'checked_out')">Check-out</button>
+                        }
+                        <button type="button" class="action-button" (click)="editar(res)">Editar</button>
+                        <button type="button" class="action-button danger" (click)="eliminar(res)">Eliminar</button>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+        </section>
+      }
+
+      <!-- Tab: Disponibilidad -->
+      @if (tabActiva() === 'disponibilidad') {
+        <section class="tabla-card">
+          <h2>Habitaciones disponibles</h2>
+
+          @if (!habitacionesDisponibles().length) {
+            <p class="empty">No hay habitaciones disponibles en este momento.</p>
+          } @else {
+            <div class="habitaciones-grid">
+              @for (hab of habitacionesDisponibles(); track hab.id) {
+                <article class="hab-card">
+                  <div class="hab-header">
+                    <span class="hab-numero">#{{ hab.number }}</span>
+                    <span class="badge badge-available">Disponible</span>
+                  </div>
+                  <p class="hab-tipo">{{ hab.type }}</p>
+                  <div class="hab-meta">
+                    <span>Piso {{ hab.floor ?? '—' }}</span>
+                    <span>{{ hab.capacity }} personas</span>
+                    <span>${{ hab.price_per_night }}/noche</span>
+                  </div>
+                  @if (hab.notes) {
+                    <p class="hab-notas">{{ hab.notes }}</p>
+                  }
+                  <button
+                    type="button"
+                    class="hab-btn"
+                    (click)="formulario.patchValue({ room_id: String(hab.id) }); cambiarTab('reservas')"
+                  >
+                    Reservar esta habitacion
+                  </button>
+                </article>
+              }
+            </div>
+          }
+        </section>
+      }
+    </section>
+  </section>
+</main>

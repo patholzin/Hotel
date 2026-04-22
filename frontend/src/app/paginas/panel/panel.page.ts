@@ -207,8 +207,16 @@ export class PanelPage {
     const valor = label.toLowerCase();
 
     if (valor.includes('dashboard')) return '/panel';
+
+    // Admin
     if (valor.includes('usuario')) return '/admin/usuarios';
     if (valor.includes('bitacora')) return '/admin/bitacora';
+
+    // Recepcionista
+    if (valor.includes('reserva')) return '/recepcion/reservas';
+    if (valor.includes('disponibilidad')) return '/recepcion/reservas';
+    if (valor.includes('huesped')) return '/recepcion/reservas';
+    if (valor.includes('check-in')) return '/recepcion/reservas';
 
     return null;
   }

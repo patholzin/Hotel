@@ -37,6 +37,11 @@ export const routes: Routes = [
 		loadComponent: () => import('./paginas/admin-bitacora/admin-bitacora.page').then((m) => m.AdminBitacoraPage),
 	},
 	{
+		path: 'recepcion/reservas',
+		canActivate: [authGuard],
+		loadComponent: () => import('./paginas/recepcion-reservas/recepcion-reservas.page').then((m) => m.RecepcionReservasPage),
+	},
+	{
 		path: '**',
 		redirectTo: 'ingresar',
 	},

@@ -14,11 +14,11 @@ export const ENDPOINTS_API = {
     permisos: '/api/admin/permisos',
   },
   recepcion: {
-    reservas: '/recepcion/reservas',
-    disponibilidad: '/recepcion/disponibilidad',
-    invitados: '/recepcion/invitados',
-    checkin: '/recepcion/checkin',
-    checkout: '/recepcion/checkout',
+    reservas: '/api/recepcion/reservas',
+    disponibilidad: '/api/recepcion/disponibilidad',
+    invitados: '/api/recepcion/invitados',
+    checkin: '/api/recepcion/checkin',
+    checkout: '/api/recepcion/checkout',
   },
   caja: {
     facturacion: '/caja/facturacion',
