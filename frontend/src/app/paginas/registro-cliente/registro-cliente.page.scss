@@ -4,9 +4,9 @@
   display: grid;
   place-items: center;
   background:
-    radial-gradient(circle at 82% 16%, rgba(203, 151, 87, 0.2), transparent 25%),
+    radial-gradient(circle at 82% 16%, rgba(66, 173, 137, 0.22), transparent 25%),
     radial-gradient(circle at 12% 15%, rgba(255, 255, 255, 0.55), transparent 32%),
-    linear-gradient(180deg, #f2cedb 0%, #f8e9df 100%);
+    linear-gradient(180deg, #d8f4ea 0%, #eefcf7 100%);
 }
 
 .registro-layout {
@@ -32,7 +32,7 @@
 
 .brand-kicker {
   margin: 0;
-  color: #7b5f51;
+  color: #356f62;
   text-transform: uppercase;
   letter-spacing: 0.2em;
   font-size: 0.74rem;
@@ -41,14 +41,14 @@
 
 .brand-panel h1 {
   margin: 2px 0 0;
-  color: #3f2b25;
+  color: #103b33;
   font-size: clamp(2.15rem, 4vw, 3.9rem);
   letter-spacing: -0.04em;
 }
 
 .brand-copy {
   margin: 0;
-  color: #715f56;
+  color: #4b756b;
   max-width: 520px;
   line-height: 1.7;
 }
@@ -57,9 +57,9 @@
   width: min(100%, 520px);
   justify-self: center;
   border-radius: 28px;
-  border: 1px solid rgba(124, 90, 66, 0.16);
+  border: 1px solid rgba(46, 115, 96, 0.16);
   background: linear-gradient(180deg, rgba(255, 251, 248, 0.95), rgba(251, 243, 237, 0.9));
-  box-shadow: 0 24px 56px rgba(116, 78, 52, 0.19);
+  box-shadow: 0 24px 56px rgba(24, 88, 73, 0.16);
   backdrop-filter: blur(14px);
   padding: 32px;
 }
@@ -70,14 +70,14 @@
 
 h2 {
   margin: 0 0 10px;
-  color: #3f2b25;
+  color: #103b33;
   font-size: 2rem;
   letter-spacing: -0.03em;
 }
 
 p {
   margin: 0 0 16px;
-  color: #715f56;
+  color: #4b756b;
   line-height: 1.7;
 }
 
@@ -92,22 +92,22 @@ label {
 }
 
 label span {
-  color: #5f4b42;
+  color: #265c50;
   font-weight: 600;
 }
 
 input {
-  border: 1px solid rgba(124, 90, 66, 0.16);
+  border: 1px solid rgba(46, 115, 96, 0.16);
   background: rgba(255, 255, 255, 0.92);
   border-radius: 14px;
   padding: 13px 14px;
-  color: #3f2b25;
+  color: #103b33;
   outline: none;
 }
 
 input:focus {
-  border-color: rgba(180, 125, 65, 0.72);
-  box-shadow: 0 0 0 4px rgba(207, 158, 99, 0.18);
+  border-color: rgba(63, 151, 128, 0.72);
+  box-shadow: 0 0 0 4px rgba(99, 198, 170, 0.2);
 }
 
 .field-error {
@@ -121,12 +121,12 @@ button {
   border: 0;
   border-radius: 16px;
   padding: 14px 16px;
-  background: linear-gradient(135deg, #c79249, #a97232);
+  background: linear-gradient(135deg, #4fbf9f, #2f8f76);
   color: #fffaf5;
   font-weight: 700;
   letter-spacing: 0.02em;
   cursor: pointer;
-  box-shadow: 0 12px 24px rgba(154, 109, 51, 0.28);
+  box-shadow: 0 12px 24px rgba(38, 121, 100, 0.24);
 }
 
 button:disabled {
@@ -146,11 +146,11 @@ button:disabled {
 .volver {
   margin: 18px 0 0;
   text-align: center;
-  color: #715f56;
+  color: #4b756b;
 }
 
 a {
-  color: #8f5d2f;
+  color: #2b8a74;
   font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 3px;

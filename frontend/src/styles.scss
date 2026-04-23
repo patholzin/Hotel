@@ -1,19 +1,19 @@
 /* Global styles for the hotel frontend */
 
 :root {
-	color-scheme: dark;
-	--bg-0: #07111f;
-	--bg-1: #0d1b2a;
-	--bg-2: #12324f;
-	--panel: rgba(10, 20, 33, 0.84);
-	--panel-border: rgba(255, 255, 255, 0.08);
-	--text-main: #f4f8fb;
-	--text-muted: #b8c6d6;
-	--accent: #f3b23a;
-	--accent-strong: #e89400;
+	color-scheme: light;
+	--bg-0: #dff8ef;
+	--bg-1: #c7efdf;
+	--bg-2: #a8deca;
+	--panel: rgba(246, 255, 251, 0.9);
+	--panel-border: rgba(46, 115, 96, 0.2);
+	--text-main: #123f35;
+	--text-muted: #4f7c72;
+	--accent: #4fbf9f;
+	--accent-strong: #2f8f76;
 	--danger: #ff6b6b;
-	--success: #44d19d;
-	--shadow: 0 28px 60px rgba(0, 0, 0, 0.35);
+	--success: #2ea783;
+	--shadow: 0 24px 48px rgba(24, 88, 73, 0.16);
 }
 
 html,
@@ -25,8 +25,8 @@ body {
 	margin: 0;
 	font-family: "Trebuchet MS", "Segoe UI", sans-serif;
 	background:
-		radial-gradient(circle at top left, rgba(243, 178, 58, 0.16), transparent 30%),
-		radial-gradient(circle at top right, rgba(77, 144, 214, 0.16), transparent 24%),
+		radial-gradient(circle at top left, rgba(79, 191, 159, 0.2), transparent 30%),
+		radial-gradient(circle at top right, rgba(43, 138, 116, 0.14), transparent 24%),
 		linear-gradient(160deg, var(--bg-0), var(--bg-1) 52%, var(--bg-2));
 	color: var(--text-main);
 }

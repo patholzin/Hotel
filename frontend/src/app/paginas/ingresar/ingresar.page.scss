@@ -5,8 +5,8 @@
   place-items: center;
   background:
     radial-gradient(circle at top, rgba(255, 255, 255, 0.7), transparent 34%),
-    radial-gradient(circle at 12% 15%, rgba(231, 176, 98, 0.2), transparent 26%),
-    linear-gradient(180deg, #f6d7e2 0%, #f8e7de 100%);
+    radial-gradient(circle at 12% 15%, rgba(66, 173, 137, 0.22), transparent 26%),
+    linear-gradient(180deg, #d9f7ee 0%, #eefcf6 100%);
 }
 
 .auth-layout {
@@ -29,7 +29,7 @@
   width: min(100%, 680px);
   max-width: 680px;
   height: auto;
-  filter: drop-shadow(0 24px 40px rgba(117, 72, 47, 0.16));
+  filter: drop-shadow(0 24px 40px rgba(24, 88, 73, 0.14));
 }
 
 .brand-copy {
@@ -38,7 +38,7 @@
 
 .eyebrow {
   margin: 0;
-  color: #7a5b4a;
+  color: #2f7564;
   text-transform: uppercase;
   letter-spacing: 0.22em;
   font-size: 0.78rem;
@@ -47,7 +47,7 @@
 
 .brand-copy h1 {
   margin: 10px 0 12px;
-  color: #3f2b25;
+  color: #103b33;
   font-size: clamp(2.4rem, 4vw, 4.2rem);
   line-height: 0.95;
   letter-spacing: -0.05em;
@@ -62,7 +62,7 @@
 .remember-me span,
 .link-button,
 label span {
-  color: #7a675d;
+  color: #4e7a6f;
 }
 
 .subtitle {
@@ -85,12 +85,12 @@ label span {
   border-radius: 18px;
   background: rgba(255, 252, 249, 0.55);
   backdrop-filter: blur(10px);
-  box-shadow: 0 12px 28px rgba(106, 71, 46, 0.07);
+  box-shadow: 0 12px 28px rgba(24, 88, 73, 0.08);
 }
 
 .highlights dt {
   margin-bottom: 6px;
-  color: #5e4335;
+  color: #1f584c;
   font-weight: 700;
 }
 
@@ -107,7 +107,7 @@ label span {
   border: 1px solid rgba(127, 89, 63, 0.14);
   border-radius: 30px;
   background: linear-gradient(180deg, rgba(255, 250, 247, 0.92), rgba(251, 243, 237, 0.88));
-  box-shadow: 0 24px 60px rgba(124, 90, 66, 0.18);
+  box-shadow: 0 24px 60px rgba(46, 115, 96, 0.18);
   backdrop-filter: blur(18px);
 }
 
@@ -118,7 +118,7 @@ label span {
 
 .card-kicker {
   margin: 0;
-  color: #a46f43;
+  color: #2f8f76;
   text-transform: uppercase;
   letter-spacing: 0.18em;
   font-size: 0.76rem;
@@ -127,7 +127,7 @@ label span {
 
 .card-header h2 {
   margin: 8px 0 10px;
-  color: #3f2b25;
+  color: #103b33;
   font-size: clamp(1.8rem, 2.8vw, 2.3rem);
   letter-spacing: -0.04em;
 }
@@ -150,9 +150,9 @@ label span {
 input[type='email'],
 input[type='password'] {
   width: 100%;
-  border: 1px solid rgba(124, 90, 66, 0.16);
+  border: 1px solid rgba(46, 115, 96, 0.16);
   background: rgba(255, 255, 255, 0.86);
-  color: #3f2b25;
+  color: #103b33;
   border-radius: 16px;
   padding: 14px 16px;
   outline: none;
@@ -160,12 +160,12 @@ input[type='password'] {
 }
 
 input::placeholder {
-  color: #ae9a8f;
+  color: #7fa39a;
 }
 
 input:focus {
-  border-color: rgba(180, 125, 65, 0.72);
-  box-shadow: 0 0 0 4px rgba(207, 158, 99, 0.18);
+  border-color: rgba(63, 151, 128, 0.72);
+  box-shadow: 0 0 0 4px rgba(99, 198, 170, 0.2);
 }
 
 .form-actions {
@@ -186,7 +186,7 @@ input:focus {
 .remember-me input {
   width: 16px;
   height: 16px;
-  accent-color: #b47d41;
+  accent-color: #2f9f83;
 }
 
 .link-button {
@@ -204,12 +204,12 @@ input:focus {
   border: 0;
   border-radius: 18px;
   padding: 15px 18px;
-  background: linear-gradient(135deg, #c79249, #a97232);
+  background: linear-gradient(135deg, #4fbf9f, #2f8f76);
   color: #fffaf5;
   font-weight: 700;
   letter-spacing: 0.02em;
   cursor: pointer;
-  box-shadow: 0 12px 24px rgba(154, 109, 51, 0.28);
+  box-shadow: 0 12px 24px rgba(38, 121, 100, 0.24);
 }
 
 .submit-button:disabled {
@@ -220,19 +220,19 @@ input:focus {
 .register-cta {
   margin: 4px 0 0;
   text-align: center;
-  color: #6f5c53;
+  color: #4d7369;
   font-size: 0.95rem;
 }
 
 .register-cta a {
-  color: #8f5d2f;
+  color: #2b8a74;
   font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
 .register-cta a:hover {
-  color: #6f451f;
+  color: #1f6e5a;
 }
 
 .error {
@@ -247,12 +247,12 @@ input:focus {
 .accounts {
   margin-top: 24px;
   padding-top: 18px;
-  border-top: 1px solid rgba(124, 90, 66, 0.14);
+  border-top: 1px solid rgba(46, 115, 96, 0.14);
 }
 
 .accounts p {
   margin: 0 0 10px;
-  color: #5e4335;
+  color: #1f584c;
   font-weight: 700;
 }
 
