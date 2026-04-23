@@ -5,13 +5,14 @@ import { Router } from '@angular/router';
 
 import { AuthService } from '../../core/auth/auth.service';
 import { AdminUsuariosService, UsuarioAdmin } from '../../core/admin/admin-usuarios.service';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 type MenuIcono =
   | 'dashboard'
   | 'usuarios'
   | 'bitacora'
   | 'reservaciones'
-  | 'huespedes'
+  | 'clientes'
   | 'habitaciones'
   | 'finanzas'
   | 'reportes'
@@ -25,6 +26,34 @@ type MenuIcono =
   | 'estados'
   | 'estancias'
   | 'perfil';
+
+
+// Validador personalizado para contraseña fuerte
+export function strongPasswordValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+    if (!value) return null;
+
+    const hasMinLength = value.length >= 8;
+    const hasUpperCase = /[A-Z]/.test(value);
+    const hasNumber = /[0-9]/.test(value);
+    const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value);
+
+    const valid = hasMinLength && hasUpperCase && hasNumber && hasSpecialChar;
+    return !valid ? { strongPassword: true } : null;
+  };
+}
+
+// Validador para que las contraseñas coincidan (a nivel de grupo)
+export function passwordMatchValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const password = control.get('password')?.value;
+    const confirm = control.get('password_confirmation')?.value;
+    return password && confirm && password !== confirm ? { mismatch: true } : null;
+  };
+}
+
+
 
 interface MenuItem {
   label: string;
@@ -40,9 +69,6 @@ interface MenuItem {
   styleUrl: './admin-usuarios.page.scss',
 })
 export class AdminUsuariosPage implements OnInit {
-  private static readonly ROL_OCULTO = 'huesped';
-  private static readonly ROLES_VISIBLES = new Set(['administrador', 'gerente', 'recepcionista', 'limpieza']);
-
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
   private readonly service = inject(AdminUsuariosService);
@@ -52,29 +78,23 @@ export class AdminUsuariosPage implements OnInit {
   readonly rolPrincipal = computed(() => this.usuario()?.roles?.[0] ?? 'Sin rol');
 
   readonly usuarios = signal<UsuarioAdmin[]>([]);
-  readonly usuariosVisibles = computed(() =>
-    this.usuarios().filter((usuario) => {
-      const rol = usuario.roles?.[0]?.name?.toLowerCase();
-      return Boolean(rol && AdminUsuariosPage.ROLES_VISIBLES.has(rol));
-    })
-  );
   readonly cargando = signal(false);
   readonly guardando = signal(false);
   readonly error = signal<string | null>(null);
   readonly exito = signal<string | null>(null);
   readonly editandoId = signal<number | null>(null);
 
-  readonly rolesDisponibles = ['Administrador', 'Gerente', 'Recepcionista', 'Limpieza'];
+  readonly rolesDisponibles = ['Administrador', 'Recepcionista', 'Cajero', 'Limpieza', 'Cliente'];
 
-  readonly menuItems = computed(() => this.crearMenu(['Dashboard', 'Usuarios', 'Bitacora', 'Reservaciones', 'Huespedes', 'Habitaciones', 'Finanzas', 'Reportes', 'Configuracion']));
+  readonly menuItems = computed(() => this.crearMenu(['Dashboard', 'Usuarios', 'Bitacora', 'Reservaciones', 'Clientes', 'Habitaciones', 'Finanzas', 'Reportes', 'Configuracion']));
 
   readonly formulario = this.fb.nonNullable.group({
-    name: ['', [Validators.required, Validators.minLength(2)]],
-    email: ['', [Validators.required, Validators.email]],
-    role: ['Administrador', [Validators.required]],
-    password: [''],
-    password_confirmation: [''],
-  });
+  name: ['', [Validators.required, Validators.minLength(2)]],
+  email: ['', [Validators.required, Validators.email]], // o usa un patrón personalizado
+  role: ['Cliente', [Validators.required]],
+  password: ['', [strongPasswordValidator()]],
+  password_confirmation: [''],
+}, { validators: passwordMatchValidator() }); // validación a nivel de grupo
 
   ngOnInit(): void {
     this.cargarUsuarios();
@@ -175,7 +195,7 @@ export class AdminUsuariosPage implements OnInit {
     this.formulario.setValue({
       name: usuario.name,
       email: usuario.email,
-      role: this.obtenerRolEditable(usuario),
+      role: usuario.roles?.[0]?.name ?? 'Cliente',
       password: '',
       password_confirmation: '',
     });
@@ -278,30 +298,10 @@ export class AdminUsuariosPage implements OnInit {
     this.formulario.reset({
       name: '',
       email: '',
-      role: 'Administrador',
+      role: 'Cliente',
       password: '',
       password_confirmation: '',
     });
-  }
-
-  rolVisible(usuario: UsuarioAdmin): string {
-    const rol = usuario.roles?.[0]?.name;
-
-    if (!rol || rol.toLowerCase() === AdminUsuariosPage.ROL_OCULTO) {
-      return 'Sin rol';
-    }
-
-    return rol;
-  }
-
-  private obtenerRolEditable(usuario: UsuarioAdmin): string {
-    const rolActual = usuario.roles?.[0]?.name;
-
-    if (!rolActual || rolActual.toLowerCase() === AdminUsuariosPage.ROL_OCULTO) {
-      return 'Administrador';
-    }
-
-    return rolActual;
   }
 
   private crearMenu(labels: string[]): MenuItem[] {
@@ -319,7 +319,7 @@ export class AdminUsuariosPage implements OnInit {
     if (valor.includes('usuario')) return 'usuarios';
     if (valor.includes('bitacora')) return 'bitacora';
     if (valor.includes('reserva')) return 'reservaciones';
-    if (valor.includes('huesped')) return 'huespedes';
+    if (valor.includes('cliente')) return 'clientes';
     if (valor.includes('habitacion')) return 'habitaciones';
     if (valor.includes('finanza')) return 'finanzas';
     if (valor.includes('reporte')) return 'reportes';
@@ -346,4 +346,26 @@ export class AdminUsuariosPage implements OnInit {
 
     return null;
   }
+
+  getErrorMessage(controlName: string): string | null {
+  const control = this.formulario.get(controlName);
+  if (!control || !control.errors || !control.touched) return null;
+
+  const errors = control.errors;
+  if (errors['required']) return 'Este campo es obligatorio.';
+  if (errors['email']) return 'Correo electrónico inválido.';
+  if (errors['minlength']) return `Mínimo ${errors['minlength'].requiredLength} caracteres.`;
+  if (errors['strongPassword']) {
+    return 'La contraseña debe tener al menos 8 caracteres, una mayúscula, un número y un símbolo.';
+  }
+  return null;
+}
+
+getFormError(): string | null {
+  if (this.formulario.errors?.['mismatch'] && this.formulario.touched) {
+    return 'Las contraseñas no coinciden.';
+  }
+  return null;
+}
+  
 }
