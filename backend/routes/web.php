@@ -24,7 +24,7 @@ Route::put('/password/change', [PasswordChangeController::class, 'update'])
     ->middleware('auth')
     ->name('password.change.update');
 
-Route::middleware(['auth', 'password.changed', 'role:Administrador'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'password.changed', 'role:Administrador|Gerente'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/usuarios', [AdminManagementController::class, 'users'])->middleware('permission:usuarios.leer')->name('usuarios.index');
     Route::post('/usuarios', [AdminManagementController::class, 'storeUser'])->middleware('permission:usuarios.crear')->name('usuarios.store');
     Route::put('/usuarios/{user}', [AdminManagementController::class, 'updateUser'])->middleware('permission:usuarios.actualizar')->name('usuarios.update');
@@ -34,7 +34,7 @@ Route::middleware(['auth', 'password.changed', 'role:Administrador'])->prefix('a
     Route::get('/permisos', [AdminManagementController::class, 'permissions'])->middleware('permission:permisos.leer')->name('permisos.index');
 });
 
-Route::middleware(['auth', 'password.changed', 'role:Recepcionista|Administrador'])->prefix('recepcion')->name('recepcion.')->group(function () {
+Route::middleware(['auth', 'password.changed', 'role:Recepcionista|Administrador|Gerente'])->prefix('recepcion')->name('recepcion.')->group(function () {
     Route::get('/reservas', [OperationsController::class, 'reservations'])->middleware('permission:reservas.leer')->name('reservas.index');
     Route::post('/reservas', [OperationsController::class, 'storeReservation'])->middleware('permission:reservas.crear')->name('reservas.store');
     Route::put('/reservas/{reservation}', [OperationsController::class, 'updateReservation'])->middleware('permission:reservas.actualizar')->name('reservas.update');
@@ -45,7 +45,7 @@ Route::middleware(['auth', 'password.changed', 'role:Recepcionista|Administrador
     Route::get('/checkout', [OperationsController::class, 'checkout'])->middleware('permission:alojamientos.checkout')->name('checkout.index');
 });
 
-Route::middleware(['auth', 'password.changed', 'role:Cajero|Administrador'])->prefix('caja')->name('caja.')->group(function () {
+Route::middleware(['auth', 'password.changed', 'role:Recepcionista|Administrador|Gerente'])->prefix('caja')->name('caja.')->group(function () {
     Route::get('/facturacion', [CashierController::class, 'invoices'])->middleware('permission:facturas.leer')->name('facturacion.index');
     Route::post('/facturacion', [CashierController::class, 'storeInvoice'])->middleware('permission:facturas.generar')->name('facturacion.store');
     Route::put('/facturacion/{invoice}', [CashierController::class, 'updateInvoice'])->middleware('permission:facturas.emitir')->name('facturacion.update');
@@ -58,7 +58,7 @@ Route::middleware(['auth', 'password.changed', 'role:Cajero|Administrador'])->pr
     Route::get('/reportes', [CashierController::class, 'reports'])->middleware('permission:informes.leer')->name('reportes.index');
 });
 
-Route::middleware(['auth', 'password.changed', 'role:Limpieza|Administrador'])->prefix('limpieza')->name('limpieza.')->group(function () {
+Route::middleware(['auth', 'password.changed', 'role:Limpieza|Administrador|Gerente'])->prefix('limpieza')->name('limpieza.')->group(function () {
     Route::get('/habitaciones', [HousekeepingController::class, 'rooms'])->middleware('permission:habitaciones.leer')->name('habitaciones.index');
     Route::post('/habitaciones', [HousekeepingController::class, 'storeRoom'])->middleware('permission:habitaciones.crear')->name('habitaciones.store');
     Route::put('/habitaciones/{room}', [HousekeepingController::class, 'updateRoom'])->middleware('permission:habitaciones.actualizar')->name('habitaciones.update');
@@ -67,7 +67,7 @@ Route::middleware(['auth', 'password.changed', 'role:Limpieza|Administrador'])->
     Route::get('/estados', [HousekeepingController::class, 'statuses'])->middleware('permission:rooms.change_status')->name('estados.index');
 });
 
-Route::middleware(['auth', 'password.changed', 'role:Cliente'])->prefix('cliente')->name('cliente.')->group(function () {
+Route::middleware(['auth', 'password.changed', 'role:Huesped'])->prefix('huesped')->name('huesped.')->group(function () {
     Route::get('/perfil', [PortalController::class, 'profile'])->middleware('permission:perfil.leer')->name('perfil.show');
     Route::put('/perfil', [PortalController::class, 'updateProfile'])->middleware('permission:perfil.actualizar')->name('perfil.update');
     Route::get('/reservas', [PortalController::class, 'reservations'])->middleware('permission:reservas.leer_own')->name('reservas.index');

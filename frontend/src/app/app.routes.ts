@@ -13,8 +13,8 @@ export const routes: Routes = [
 		loadComponent: () => import('./paginas/ingresar/ingresar.page').then((m) => m.IngresarPage),
 	},
 	{
-		path: 'registro-cliente',
-		loadComponent: () => import('./paginas/registro-cliente/registro-cliente.page').then((m) => m.RegistroClientePage),
+		path: 'registro-huesped',
+		loadComponent: () => import('./paginas/registro-huesped/registro-huesped.page').then((m) => m.RegistroHuespedPage),
 	},
 	{
 		path: 'cambiar-contrasena',

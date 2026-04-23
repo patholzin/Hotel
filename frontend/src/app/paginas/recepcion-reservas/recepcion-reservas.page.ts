@@ -11,7 +11,7 @@ type MenuIcono =
   | 'usuarios'
   | 'bitacora'
   | 'reservaciones'
-  | 'clientes'
+  | 'huespedes'
   | 'habitaciones'
   | 'finanzas'
   | 'reportes'

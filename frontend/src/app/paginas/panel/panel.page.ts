@@ -9,7 +9,7 @@ type MenuIcono =
   | 'usuarios'
   | 'bitacora'
   | 'reservaciones'
-  | 'clientes'
+  | 'huespedes'
   | 'habitaciones'
   | 'finanzas'
   | 'reportes'
@@ -55,16 +55,16 @@ export class PanelPage {
       return 'Gestion diaria de ingresos, reservaciones, check-in y atencion a huespedes.';
     }
 
-    if (rol === 'cajero') {
-      return 'Seguimiento de cobros, facturacion y control de caja para cierre operativo.';
+    if (rol === 'gerente') {
+      return 'Supervision ejecutiva de operaciones, finanzas y personal con privilegios ampliados.';
     }
 
     if (rol === 'limpieza') {
       return 'Supervision del estado de habitaciones y coordinacion de tareas de limpieza.';
     }
 
-    if (rol === 'cliente') {
-      return 'Consulta de reservas, facturas y pagos dentro del portal de clientes.';
+    if (rol === 'huesped') {
+      return 'Consulta de reservas, facturas y pagos dentro del portal de huespedes.';
     }
 
     return 'Acceso al panel principal del sistema Hotel Juquilita.';
@@ -74,22 +74,22 @@ export class PanelPage {
     const rol = this.rolPrincipal().toLowerCase();
 
     if (rol === 'administrador') {
-      return this.crearMenu(['Dashboard', 'Usuarios', 'Bitacora', 'Reservaciones', 'Clientes', 'Habitaciones', 'Finanzas', 'Reportes', 'Configuracion']);
+      return this.crearMenu(['Dashboard', 'Usuarios', 'Bitacora', 'Reservaciones', 'Huespedes', 'Habitaciones', 'Finanzas', 'Reportes', 'Configuracion']);
     }
 
     if (rol === 'recepcionista') {
       return this.crearMenu(['Dashboard', 'Reservaciones', 'Disponibilidad', 'Huespedes', 'Check-in / Check-out']);
     }
 
-    if (rol === 'cajero') {
-      return this.crearMenu(['Dashboard', 'Facturas', 'Pagos', 'Caja', 'Reportes']);
+    if (rol === 'gerente') {
+      return this.crearMenu(['Dashboard', 'Usuarios', 'Bitacora', 'Reservaciones', 'Huespedes', 'Habitaciones', 'Finanzas', 'Reportes', 'Configuracion']);
     }
 
     if (rol === 'limpieza') {
       return this.crearMenu(['Dashboard', 'Habitaciones', 'Estados', 'Estancias']);
     }
 
-    if (rol === 'cliente') {
+    if (rol === 'huesped') {
       return this.crearMenu(['Dashboard', 'Mis reservas', 'Mis facturas', 'Mis pagos', 'Mi perfil']);
     }
 
@@ -103,7 +103,7 @@ export class PanelPage {
     if (rol === 'administrador') {
       return [
         { etiqueta: 'Reservas del dia', valor: '7' },
-        { etiqueta: 'Clientes registrados', valor: '158' },
+        { etiqueta: 'Huespedes registrados', valor: '158' },
         { etiqueta: 'Habitaciones ocupadas', valor: '21' },
         { etiqueta: 'Ingresos mensuales', valor: '$185,320' },
       ];
@@ -118,12 +118,12 @@ export class PanelPage {
       ];
     }
 
-    if (rol === 'cajero') {
+    if (rol === 'gerente') {
       return [
-        { etiqueta: 'Facturas emitidas hoy', valor: '23' },
-        { etiqueta: 'Pagos registrados', valor: '31' },
-        { etiqueta: 'Cierre parcial', valor: '$42,580' },
-        { etiqueta: 'Comprobantes pendientes', valor: '4' },
+        { etiqueta: 'Ocupacion hotelera', valor: '84%' },
+        { etiqueta: 'Ingresos semanales', valor: '$64,900' },
+        { etiqueta: 'Equipos supervisados', valor: '4' },
+        { etiqueta: 'Alertas operativas', valor: '3' },
       ];
     }
 
@@ -136,7 +136,7 @@ export class PanelPage {
       ];
     }
 
-    if (rol === 'cliente') {
+    if (rol === 'huesped') {
       return [
         { etiqueta: 'Reservas activas', valor: '2' },
         { etiqueta: 'Proxima llegada', valor: '26 Abr' },
@@ -185,7 +185,7 @@ export class PanelPage {
     if (valor.includes('usuario')) return 'usuarios';
     if (valor.includes('bitacora')) return 'bitacora';
     if (valor.includes('reserva')) return 'reservaciones';
-    if (valor.includes('cliente')) return 'clientes';
+    if (valor.includes('huesped')) return 'huespedes';
     if (valor.includes('habitacion')) return 'habitaciones';
     if (valor.includes('finanza')) return 'finanzas';
     if (valor.includes('reporte')) return 'reportes';

@@ -1,7 +1,7 @@
 export const ENDPOINTS_API = {
   autenticacion: {
     iniciarSesion: '/api/autenticacion/iniciar-sesion',
-    registroCliente: '/api/autenticacion/registro-cliente',
+    registroHuesped: '/api/autenticacion/registro-huesped',
     cerrarSesion: '/api/autenticacion/cerrar-sesion',
     perfil: '/api/autenticacion/perfil',
     cambiarContrasena: '/api/autenticacion/cambiar-contrasena',
@@ -31,10 +31,10 @@ export const ENDPOINTS_API = {
     estadoHabitacion: (id: number | string) => `/limpieza/habitaciones/${id}/estado`,
     estados: '/limpieza/estados',
   },
-  cliente: {
-    perfil: '/cliente/perfil',
-    reservas: '/cliente/reservas',
-    facturas: '/cliente/facturas',
-    pagos: '/cliente/pagos',
+  huesped: {
+    perfil: '/huesped/perfil',
+    reservas: '/huesped/reservas',
+    facturas: '/huesped/facturas',
+    pagos: '/huesped/pagos',
   },
 } as const;

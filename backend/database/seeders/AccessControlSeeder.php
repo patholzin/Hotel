@@ -87,6 +87,7 @@ class AccessControlSeeder extends Seeder
 
         $roles = [
             'Administrador' => $permissions,
+            'Gerente' => $permissions,
             'Recepcionista' => [
                 'reservas.leer',
                 'reservas.crear',
@@ -102,14 +103,7 @@ class AccessControlSeeder extends Seeder
                 'habitaciones.leer',
                 'rooms.change_status',
                 'facturas.generar',
-                'pagos.crear',
-                'informes.leer',
-            ],
-            'Cajero' => [
-                'reservas.leer',
-                'estancias.leer',
                 'facturas.leer',
-                'facturas.generar',
                 'facturas.emitir',
                 'facturas.cancelar',
                 'pagos.leer',
@@ -124,7 +118,7 @@ class AccessControlSeeder extends Seeder
                 'rooms.change_status',
                 'estancias.leer',
             ],
-            'Cliente' => [
+            'Huesped' => [
                 'perfil.leer',
                 'perfil.actualizar',
                 'reservas.crear',
@@ -154,10 +148,10 @@ class AccessControlSeeder extends Seeder
                 'role' => 'Recepcionista',
             ],
             [
-                'name' => 'Cajero',
-                'email' => 'cajero@gmail.com',
-                'password' => 'cajero123',
-                'role' => 'Cajero',
+                'name' => 'Gerente',
+                'email' => 'gerente@gmail.com',
+                'password' => 'gerente123',
+                'role' => 'Gerente',
             ],
             [
                 'name' => 'Limpieza',
@@ -166,10 +160,10 @@ class AccessControlSeeder extends Seeder
                 'role' => 'Limpieza',
             ],
             [
-                'name' => 'Cliente',
+                'name' => 'Huesped',
                 'email' => 'itahy@gmail.com',
                 'password' => 'itahy123',
-                'role' => 'Cliente',
+                'role' => 'Huesped',
             ],
         ];
 

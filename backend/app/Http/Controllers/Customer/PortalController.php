@@ -13,7 +13,7 @@ class PortalController extends Controller
 {
     public function profile(Request $request): JsonResponse
     {
-        return response()->json(['module' => 'cliente.perfil', 'data' => $request->user(), 'actor' => $request->user()?->only(['id', 'name', 'email'])]);
+        return response()->json(['module' => 'huesped.perfil', 'data' => $request->user(), 'actor' => $request->user()?->only(['id', 'name', 'email'])]);
     }
 
     public function updateProfile(Request $request): JsonResponse
@@ -30,7 +30,7 @@ class PortalController extends Controller
 
     public function reservations(Request $request): JsonResponse
     {
-        return response()->json(['module' => 'cliente.reservas', 'data' => Reservation::query()->where('user_id', $request->user()->id)->with('room:id,number,type,status')->latest()->get(), 'actor' => $request->user()?->only(['id', 'name', 'email'])]);
+        return response()->json(['module' => 'huesped.reservas', 'data' => Reservation::query()->where('user_id', $request->user()->id)->with('room:id,number,type,status')->latest()->get(), 'actor' => $request->user()?->only(['id', 'name', 'email'])]);
     }
 
     public function storeReservation(Request $request): JsonResponse
@@ -69,11 +69,11 @@ class PortalController extends Controller
 
     public function invoices(Request $request): JsonResponse
     {
-        return response()->json(['module' => 'cliente.facturas', 'data' => Invoice::query()->where('user_id', $request->user()->id)->latest()->get(), 'actor' => $request->user()?->only(['id', 'name', 'email'])]);
+        return response()->json(['module' => 'huesped.facturas', 'data' => Invoice::query()->where('user_id', $request->user()->id)->latest()->get(), 'actor' => $request->user()?->only(['id', 'name', 'email'])]);
     }
 
     public function payments(Request $request): JsonResponse
     {
-        return response()->json(['module' => 'cliente.pagos', 'data' => Payment::query()->where('user_id', $request->user()->id)->latest()->get(), 'actor' => $request->user()?->only(['id', 'name', 'email'])]);
+        return response()->json(['module' => 'huesped.pagos', 'data' => Payment::query()->where('user_id', $request->user()->id)->latest()->get(), 'actor' => $request->user()?->only(['id', 'name', 'email'])]);
     }
 }

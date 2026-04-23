@@ -7,12 +7,12 @@ import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
   standalone: true,
-  selector: 'app-registro-cliente-page',
+  selector: 'app-registro-huesped-page',
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
-  templateUrl: './registro-cliente.page.html',
-  styleUrl: './registro-cliente.page.scss',
+  templateUrl: './registro-huesped.page.html',
+  styleUrl: './registro-huesped.page.scss',
 })
-export class RegistroClientePage {
+export class RegistroHuespedPage {
   private static readonly passwordPolicy = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
 
   private readonly fb = inject(FormBuilder);
@@ -25,7 +25,7 @@ export class RegistroClientePage {
   readonly formulario = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(2)]],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.pattern(RegistroClientePage.passwordPolicy)]],
+    password: ['', [Validators.required, Validators.pattern(RegistroHuespedPage.passwordPolicy)]],
     password_confirmation: ['', [Validators.required]],
   }, { validators: this.passwordsMatchValidator() });
 
@@ -69,7 +69,7 @@ export class RegistroClientePage {
     this.cargando.set(true);
     this.error.set(null);
 
-    this.auth.registrarCliente(payload).subscribe({
+    this.auth.registrarHuesped(payload).subscribe({
       next: () => {
         void this.router.navigateByUrl('/panel');
       },

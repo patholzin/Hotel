@@ -12,7 +12,7 @@ interface CredencialesLogin {
   password: string;
 }
 
-interface RegistroClientePayload {
+interface RegistroHuespedPayload {
   name: string;
   email: string;
   password: string;
@@ -59,8 +59,8 @@ export class AuthService {
     );
   }
 
-  registrarCliente(payload: RegistroClientePayload): Observable<RespuestaAutenticacion> {
-    return this.http.post<RespuestaAutenticacion>(ENDPOINTS_API.autenticacion.registroCliente, {
+  registrarHuesped(payload: RegistroHuespedPayload): Observable<RespuestaAutenticacion> {
+    return this.http.post<RespuestaAutenticacion>(ENDPOINTS_API.autenticacion.registroHuesped, {
       ...payload,
       device_name: 'frontend',
     }).pipe(

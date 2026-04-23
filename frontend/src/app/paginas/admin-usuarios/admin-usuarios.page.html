@@ -22,7 +22,7 @@
                 @case ('reservaciones') {
                   <svg viewBox="0 0 24 24" fill="none"><path d="M7 2v3M17 2v3M3 9h18M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm3 8h3v3H8v-3z" /></svg>
                 }
-                @case ('clientes') {
+                @case ('huespedes') {
                   <svg viewBox="0 0 24 24" fill="none"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm8 1a4 4 0 1 0 0-8m6 17v-2a4 4 0 0 0-3-3.87" /></svg>
                 }
                 @case ('habitaciones') {
@@ -120,7 +120,7 @@
 
         @if (cargando()) {
           <p class="empty">Cargando usuarios...</p>
-        } @else if (!usuarios().length) {
+        } @else if (!usuariosVisibles().length) {
           <p class="empty">No hay usuarios registrados.</p>
         } @else {
           <div class="tabla-wrap">
@@ -135,11 +135,11 @@
                 </tr>
               </thead>
               <tbody>
-                @for (usuarioItem of usuarios(); track usuarioItem.id) {
+                @for (usuarioItem of usuariosVisibles(); track usuarioItem.id) {
                   <tr>
                     <td>{{ usuarioItem.name }}</td>
                     <td>{{ usuarioItem.email }}</td>
-                    <td>{{ usuarioItem.roles[0]?.name ?? 'Sin rol' }}</td>
+                    <td>{{ rolVisible(usuarioItem) }}</td>
                     <td>
                       <span class="estado" [class.inactivo]="!usuarioItem.activo">{{ usuarioItem.activo ? 'Activo' : 'Inactivo' }}</span>
                     </td>

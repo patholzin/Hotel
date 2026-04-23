@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('autenticacion')->name('api.autenticacion.')->group(function (): void {
 	Route::post('/iniciar-sesion', [AuthController::class, 'login'])->name('iniciar-sesion');
-	Route::post('/registro-cliente', [AuthController::class, 'registroCliente'])->name('registro-cliente');
+	Route::post('/registro-huesped', [AuthController::class, 'registroHuesped'])->name('registro-huesped');
 
 	Route::middleware('auth:sanctum')->group(function (): void {
 		Route::post('/cerrar-sesion', [AuthController::class, 'logout'])->name('cerrar-sesion');
@@ -23,7 +23,7 @@ Route::prefix('autenticacion')->name('api.autenticacion.')->group(function (): v
 // Compatibilidad temporal con rutas antiguas.
 Route::prefix('auth')->name('api.auth.')->group(function (): void {
 	Route::post('/login', [AuthController::class, 'login'])->name('login');
-	Route::post('/register', [AuthController::class, 'registroCliente'])->name('register');
+	Route::post('/register', [AuthController::class, 'registroHuesped'])->name('register');
 
 	Route::middleware('auth:sanctum')->group(function (): void {
 		Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -32,7 +32,7 @@ Route::prefix('auth')->name('api.auth.')->group(function (): void {
 	});
 });
 
-Route::middleware(['auth:sanctum', 'role:Administrador'])->prefix('admin')->name('api.admin.')->group(function (): void {
+Route::middleware(['auth:sanctum', 'role:Administrador|Gerente'])->prefix('admin')->name('api.admin.')->group(function (): void {
 	Route::get('/usuarios', [AdminManagementController::class, 'users'])->middleware('permission:usuarios.leer')->name('usuarios.index');
 	Route::post('/usuarios', [AdminManagementController::class, 'storeUser'])->middleware('permission:usuarios.crear')->name('usuarios.store');
 	Route::put('/usuarios/{user}', [AdminManagementController::class, 'updateUser'])->middleware('permission:usuarios.actualizar')->name('usuarios.update');
@@ -42,7 +42,7 @@ Route::middleware(['auth:sanctum', 'role:Administrador'])->prefix('admin')->name
 	Route::post('/bitacora', [BitacoraController::class, 'store'])->middleware('permission:auditoria.leer')->name('bitacora.store');
 });
 
-Route::middleware(['auth:sanctum', 'role:Recepcionista|Administrador'])->prefix('recepcion')->name('api.recepcion.')->group(function (): void {
+Route::middleware(['auth:sanctum', 'role:Recepcionista|Administrador|Gerente'])->prefix('recepcion')->name('api.recepcion.')->group(function (): void {
 	Route::get('/reservas', [OperationsController::class, 'reservations'])->middleware('permission:reservas.leer')->name('reservas.index');
 	Route::post('/reservas', [OperationsController::class, 'storeReservation'])->middleware('permission:reservas.crear')->name('reservas.store');
 	Route::put('/reservas/{reservation}', [OperationsController::class, 'updateReservation'])->middleware('permission:reservas.actualizar')->name('reservas.update');
@@ -53,7 +53,7 @@ Route::middleware(['auth:sanctum', 'role:Recepcionista|Administrador'])->prefix(
 	Route::post('/checkout', [OperationsController::class, 'checkout'])->middleware('permission:alojamientos.checkout')->name('checkout');
 });
 
-Route::middleware(['auth:sanctum', 'role:Cajero|Administrador'])->prefix('caja')->name('api.caja.')->group(function (): void {
+Route::middleware(['auth:sanctum', 'role:Recepcionista|Administrador|Gerente'])->prefix('caja')->name('api.caja.')->group(function (): void {
 	Route::get('/facturacion', [CashierController::class, 'invoices'])->middleware('permission:facturas.leer')->name('facturas.index');
 	Route::post('/facturacion', [CashierController::class, 'storeInvoice'])->middleware('permission:facturas.generar')->name('facturas.store');
 	Route::put('/facturacion/{invoice}', [CashierController::class, 'updateInvoice'])->middleware('permission:facturas.emitir')->name('facturas.update');
@@ -66,12 +66,12 @@ Route::middleware(['auth:sanctum', 'role:Cajero|Administrador'])->prefix('caja')
 	Route::get('/reportes', [CashierController::class, 'reports'])->middleware('permission:informes.leer')->name('reportes');
 });
 
-Route::middleware(['auth:sanctum', 'role:Limpieza|Administrador'])->prefix('limpieza')->name('api.limpieza.')->group(function (): void {
+Route::middleware(['auth:sanctum', 'role:Limpieza|Administrador|Gerente'])->prefix('limpieza')->name('api.limpieza.')->group(function (): void {
 	Route::get('/habitaciones', [HousekeepingController::class, 'rooms'])->middleware('permission:habitaciones.leer')->name('habitaciones.index');
 	Route::patch('/habitaciones/{room}/estado', [HousekeepingController::class, 'changeStatus'])->middleware('permission:rooms.change_status')->name('habitaciones.estado');
 });
 
-Route::middleware(['auth:sanctum', 'role:Cliente'])->prefix('cliente')->name('api.cliente.')->group(function (): void {
+Route::middleware(['auth:sanctum', 'role:Huesped'])->prefix('huesped')->name('api.huesped.')->group(function (): void {
 	Route::get('/perfil', [PortalController::class, 'profile'])->middleware('permission:perfil.leer')->name('perfil');
 	Route::get('/reservas', [PortalController::class, 'reservations'])->middleware('permission:reservas.leer_own')->name('reservas.index');
 	Route::post('/reservas', [PortalController::class, 'storeReservation'])->middleware('permission:reservas.crear')->name('reservas.store');

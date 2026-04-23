@@ -11,7 +11,7 @@ type MenuIcono =
   | 'usuarios'
   | 'bitacora'
   | 'reservaciones'
-  | 'clientes'
+  | 'huespedes'
   | 'habitaciones'
   | 'finanzas'
   | 'reportes'
@@ -40,6 +40,9 @@ interface MenuItem {
   styleUrl: './admin-usuarios.page.scss',
 })
 export class AdminUsuariosPage implements OnInit {
+  private static readonly ROL_OCULTO = 'huesped';
+  private static readonly ROLES_VISIBLES = new Set(['administrador', 'gerente', 'recepcionista', 'limpieza']);
+
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
   private readonly service = inject(AdminUsuariosService);
@@ -49,20 +52,26 @@ export class AdminUsuariosPage implements OnInit {
   readonly rolPrincipal = computed(() => this.usuario()?.roles?.[0] ?? 'Sin rol');
 
   readonly usuarios = signal<UsuarioAdmin[]>([]);
+  readonly usuariosVisibles = computed(() =>
+    this.usuarios().filter((usuario) => {
+      const rol = usuario.roles?.[0]?.name?.toLowerCase();
+      return Boolean(rol && AdminUsuariosPage.ROLES_VISIBLES.has(rol));
+    })
+  );
   readonly cargando = signal(false);
   readonly guardando = signal(false);
   readonly error = signal<string | null>(null);
   readonly exito = signal<string | null>(null);
   readonly editandoId = signal<number | null>(null);
 
-  readonly rolesDisponibles = ['Administrador', 'Recepcionista', 'Cajero', 'Limpieza', 'Cliente'];
+  readonly rolesDisponibles = ['Administrador', 'Gerente', 'Recepcionista', 'Limpieza'];
 
-  readonly menuItems = computed(() => this.crearMenu(['Dashboard', 'Usuarios', 'Bitacora', 'Reservaciones', 'Clientes', 'Habitaciones', 'Finanzas', 'Reportes', 'Configuracion']));
+  readonly menuItems = computed(() => this.crearMenu(['Dashboard', 'Usuarios', 'Bitacora', 'Reservaciones', 'Huespedes', 'Habitaciones', 'Finanzas', 'Reportes', 'Configuracion']));
 
   readonly formulario = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(2)]],
     email: ['', [Validators.required, Validators.email]],
-    role: ['Cliente', [Validators.required]],
+    role: ['Administrador', [Validators.required]],
     password: [''],
     password_confirmation: [''],
   });
@@ -166,7 +175,7 @@ export class AdminUsuariosPage implements OnInit {
     this.formulario.setValue({
       name: usuario.name,
       email: usuario.email,
-      role: usuario.roles?.[0]?.name ?? 'Cliente',
+      role: this.obtenerRolEditable(usuario),
       password: '',
       password_confirmation: '',
     });
@@ -269,10 +278,30 @@ export class AdminUsuariosPage implements OnInit {
     this.formulario.reset({
       name: '',
       email: '',
-      role: 'Cliente',
+      role: 'Administrador',
       password: '',
       password_confirmation: '',
     });
+  }
+
+  rolVisible(usuario: UsuarioAdmin): string {
+    const rol = usuario.roles?.[0]?.name;
+
+    if (!rol || rol.toLowerCase() === AdminUsuariosPage.ROL_OCULTO) {
+      return 'Sin rol';
+    }
+
+    return rol;
+  }
+
+  private obtenerRolEditable(usuario: UsuarioAdmin): string {
+    const rolActual = usuario.roles?.[0]?.name;
+
+    if (!rolActual || rolActual.toLowerCase() === AdminUsuariosPage.ROL_OCULTO) {
+      return 'Administrador';
+    }
+
+    return rolActual;
   }
 
   private crearMenu(labels: string[]): MenuItem[] {
@@ -290,7 +319,7 @@ export class AdminUsuariosPage implements OnInit {
     if (valor.includes('usuario')) return 'usuarios';
     if (valor.includes('bitacora')) return 'bitacora';
     if (valor.includes('reserva')) return 'reservaciones';
-    if (valor.includes('cliente')) return 'clientes';
+    if (valor.includes('huesped')) return 'huespedes';
     if (valor.includes('habitacion')) return 'habitaciones';
     if (valor.includes('finanza')) return 'finanzas';
     if (valor.includes('reporte')) return 'reportes';

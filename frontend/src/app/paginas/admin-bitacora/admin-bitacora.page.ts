@@ -11,7 +11,7 @@ type MenuIcono =
   | 'usuarios'
   | 'bitacora'
   | 'reservaciones'
-  | 'clientes'
+  | 'huespedes'
   | 'habitaciones'
   | 'finanzas'
   | 'reportes'
@@ -53,7 +53,7 @@ export class AdminBitacoraPage implements OnInit {
   readonly error = signal<string | null>(null);
   readonly total = signal(0);
 
-  readonly menuItems = computed(() => this.crearMenu(['Dashboard', 'Usuarios', 'Bitacora', 'Reservaciones', 'Clientes', 'Habitaciones', 'Finanzas', 'Reportes', 'Configuracion']));
+  readonly menuItems = computed(() => this.crearMenu(['Dashboard', 'Usuarios', 'Bitacora', 'Reservaciones', 'Huespedes', 'Habitaciones', 'Finanzas', 'Reportes', 'Configuracion']));
 
   readonly filtros = this.fb.nonNullable.group({
     usuario_id: [''],
@@ -152,7 +152,7 @@ export class AdminBitacoraPage implements OnInit {
     if (valor.includes('usuario')) return 'usuarios';
     if (valor.includes('bitacora')) return 'bitacora';
     if (valor.includes('reserva')) return 'reservaciones';
-    if (valor.includes('cliente')) return 'clientes';
+    if (valor.includes('huesped')) return 'huespedes';
     if (valor.includes('habitacion')) return 'habitaciones';
     if (valor.includes('finanza')) return 'finanzas';
     if (valor.includes('reporte')) return 'reportes';

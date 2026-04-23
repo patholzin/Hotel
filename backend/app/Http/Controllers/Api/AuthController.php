@@ -13,7 +13,7 @@ use Spatie\Permission\Models\Role;
 
 class AuthController extends Controller
 {
-    public function registroCliente(Request $request): JsonResponse
+    public function registroHuesped(Request $request): JsonResponse
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'min:2', 'max:120'],
@@ -22,11 +22,11 @@ class AuthController extends Controller
             'device_name' => ['nullable', 'string', 'max:255'],
         ]);
 
-        $clienteRole = Role::query()->where('name', 'Cliente')->first();
+        $huespedRole = Role::query()->where('name', 'Huesped')->first();
 
-        if (! $clienteRole) {
+        if (! $huespedRole) {
             throw ValidationException::withMessages([
-                'role' => ['No existe el rol Cliente. Ejecute los seeders de acceso.'],
+                'role' => ['No existe el rol Huesped. Ejecute los seeders de acceso.'],
             ]);
         }
 
@@ -38,7 +38,7 @@ class AuthController extends Controller
             'password_changed_at' => now(),
         ]);
 
-        $user->syncRoles(['Cliente']);
+        $user->syncRoles(['Huesped']);
 
         $tokenName = $validated['device_name'] ?? 'frontend';
         $abilities = $user->permissions_list;
